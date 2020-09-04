@@ -1,5 +1,6 @@
+import 'package:ExpenseTracker/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
-import './transaction.dart';
+import './widgets/transaction_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,20 +17,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
-    Transaction(
-      id: 't1',
-      title: 'shoes',
-      price: 40,
-      purchaseDate: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'shoes',
-      price: 40,
-      purchaseDate: DateTime.now(),
-    ),
-  ];
+  // String titleInput;
+  // String priceInput;
+  final titleController = TextEditingController();
+  final priceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,53 +32,46 @@ class MyHomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Card(
-            color: Colors.amber,
-            child: Container(
-              child: Text('chart'),
-              width: double.infinity,
+          Container(
+            width: double.infinity,
+            child: Card(
+              color: Colors.amber,
+              child: Container(
+                child: Text('chart'),
+                width: double.infinity,
+              ),
+              elevation: 5,
             ),
-            elevation: 5,
           ),
-          Column(
-            children: transactions.map((tx) {
-              return Card(
-                  child: Row(
+          Card(
+            elevation: 3,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 50,
-                    ),
-                    padding: EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.purple, width: 0.5),
-                    ),
-                    child: Text(
-                      tx.price.toString(),
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                  TextField(
+                    controller: titleController,
+                    decoration: InputDecoration(
+                        fillColor: Colors.blueAccent, labelText: 'Title'),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        tx.title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      Text(
-                        tx.purchaseDate.toString(),
-                        style: TextStyle(color: Colors.blueGrey),
-                      ),
-                    ],
-                  )
+                  TextField(
+                    controller: priceController,
+                    decoration: InputDecoration(
+                        fillColor: Colors.blueAccent, labelText: 'Amount'),
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      print(titleController.text);
+                    },
+                    child: Text('add trans'),
+                    textColor: Colors.lightGreen,
+                  ),
                 ],
-              ));
-            }).toList(),
+              ),
+            ),
           ),
+          TransactionList()
         ],
       ),
     );
