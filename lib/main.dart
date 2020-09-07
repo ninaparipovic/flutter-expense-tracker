@@ -11,7 +11,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Personal Expenses',
+      theme: ThemeData(
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+        primarySwatch: Colors.amber,
+        accentColor: Colors.yellow,
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 30,
+              )),
+        ),
+      ),
       home: MyHomePage(),
     );
   }
@@ -26,14 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final titleController = TextEditingController();
   final priceController = TextEditingController();
 
-  final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'shoes',
-      price: 20.55,
-      purchaseDate: DateTime.now(),
-    ),
-  ];
+  final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -71,7 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () => _startAddNewTransaction(context),
           )
         ],
-        title: Text('expenses app'),
+        title: Text(
+          'Personal Expenses',
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -81,9 +95,16 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               width: double.infinity,
               child: Card(
-                color: Colors.amber,
+                color: Theme.of(context).primaryColorDark,
                 child: Container(
-                  child: Text('chart'),
+                  child: Text(
+                    'chart',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColorLight,
+                    ),
+                  ),
                   width: double.infinity,
                 ),
                 elevation: 5,
