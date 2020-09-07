@@ -8,6 +8,16 @@ class NewTransaction extends StatelessWidget {
 
   NewTransaction(this.addTx);
 
+  void submitData() {
+    final enteredTitle = titleController.text;
+    final enteredPrice = double.parse(priceController.text);
+
+    if (enteredTitle.isEmpty || enteredPrice <= 0) {
+      return;
+    }
+    addTx(enteredTitle, enteredPrice);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -18,19 +28,21 @@ class NewTransaction extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
+              onSubmitted: (_) => submitData(),
               controller: titleController,
               decoration: InputDecoration(
                   fillColor: Colors.blueAccent, labelText: 'Title'),
             ),
             TextField(
               controller: priceController,
+              // get argument that must be accepted but is not used i.e. passing something that doens't get used
+              onSubmitted: (_) => submitData(),
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: InputDecoration(
                   fillColor: Colors.blueAccent, labelText: 'Amount'),
             ),
             FlatButton(
-              onPressed: () {
-                addTx(titleController.text, double.parse(priceController.text));
-              },
+              onPressed: submitData,
               child: Text('add trans'),
               textColor: Colors.lightGreen,
             ),
