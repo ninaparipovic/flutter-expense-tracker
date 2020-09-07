@@ -2,6 +2,8 @@ import 'package:ExpenseTracker/widgets/new_transaction.dart';
 import 'package:ExpenseTracker/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
 import './models/transaction.dart';
+import './widgets/chart.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MyApp());
@@ -47,12 +49,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Transaction> _userTransactions = [];
 
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       title: txTitle,
       price: txAmount,
-      purchaseDate: DateTime.now(),
+      date: DateTime.now(),
     );
 
     setState(() {
@@ -92,24 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Theme.of(context).primaryColorDark,
-                child: Container(
-                  child: Text(
-                    'chart',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorLight,
-                    ),
-                  ),
-                  width: double.infinity,
-                ),
-                elevation: 5,
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(_userTransactions),
           ],
         ),

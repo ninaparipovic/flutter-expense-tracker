@@ -58,8 +58,7 @@ class TransactionList extends StatelessWidget {
                             style: Theme.of(context).textTheme.headline6,
                           ),
                           Text(
-                            DateFormat.EEEE()
-                                .format(transactions[index].purchaseDate),
+                            DateFormat.EEEE().format(transactions[index].date),
                             style: TextStyle(color: Colors.blueGrey),
                           ),
                         ],
